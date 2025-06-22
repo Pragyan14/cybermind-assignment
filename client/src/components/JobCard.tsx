@@ -1,33 +1,36 @@
 'use client'
+import { getTimeAgo } from "@/utils/getTimeAgo";
 import { Building, Layers, UserPlus } from "lucide-react";
 
 export type Job = {
-  id: number;
-  title: string;
-  companyName: string;
-  location: string;
-  jobType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP';
-  salaryMin: number;
-  salaryMax: number;
-  description: string;
-  requirements: string;
-  responsibilities: string;
-  applicationDeadline: string;
-  createdAt: string;
+    id: number;
+    title: string;
+    companyName: string;
+    location: string;
+    jobType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT' | 'INTERNSHIP';
+    salaryMin: number;
+    salaryMax: number;
+    description: string;
+    requirements: string;
+    responsibilities: string;
+    applicationDeadline: string;
+    createdAt: string;
 };
 
 type Props = {
-  job: Job;
+    job: Job;
 };
 
-function JobCard({job} : Props) {
+function JobCard({ job }: Props) {
     return (
         <div className="bg-white p-4 shadow rounded-xl">
             <div className="flex justify-between items-start mb-6">
-                <div className="w-16 h-16 bg-gray-300 rounded-lg flex items-center justify-center">
-                    <span className="text-white text-2xl font-bold">{job.companyName[0]}</span>
+                <div className="w-16 h-16 bg-gray-500 rounded-lg flex flex-col items-center justify-center">
+                    <span className="text-xs text-white mt-1 text-center">
+                        {job.companyName}
+                    </span>
                 </div>
-                <div className="bg-[#B0D9FF] text-black py-2 px-3 rounded-lg text-sm font-medium">24h Ago</div>
+                <div className="bg-[#B0D9FF] text-black py-2 px-3 rounded-lg text-sm font-medium">{getTimeAgo(job.createdAt)}</div>
             </div>
 
             {/* Job Title */}
@@ -41,7 +44,7 @@ function JobCard({job} : Props) {
                 </div>
                 <div className="flex items-center gap-1">
                     <Building className="w-5 h-5" />
-                    <span>Onsite</span>
+                    <span>{job.location}</span>
                 </div>
                 <div className="flex items-center gap-1">
                     <Layers className="w-5 h-5" />

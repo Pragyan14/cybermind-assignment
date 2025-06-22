@@ -39,14 +39,18 @@ export const useJobStore = create<JobStore>((set) => ({
     isLoading: false,
     hasFetched: false,
 
-    getJobs: async (filters = {}) => {
+    getJobs: async (filters?: JobFilters) => {
         try {
-            const query = new URLSearchParams(filters as any).toString();
+            const query = new URLSearchParams(
+                Object.entries(filters || {})
+                    .filter(([_, value]) => value !== undefined && value !== '')
+                    .map(([key, value]) => [key, String(value)])
+            ).toString();
             const res = await axios.get(`http://localhost:5000/api/jobs?${query}`);
             set({ jobs: res.data, error: null, hasFetched: true })
             return true;
-        } catch (error) {
-            set({ error: 'Failed to fetch jobs' });
+        } catch (error: any) {
+            set({ error: 'Failed to fetch jobs', jobs:[], hasFetched: true });
             return false;
         }
     }

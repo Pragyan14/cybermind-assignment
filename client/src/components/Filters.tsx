@@ -1,17 +1,39 @@
 "use client";
 
-import { useState } from "react"
 import { Search, MapPin, Briefcase, ChevronDown } from "lucide-react"
 import { RangeSlider } from "@mantine/core"
-import { useQueryState } from "nuqs";
+import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
+import { useJobStore } from "@/store/jobStore";
+import { useEffect } from "react";
 
 export default function Filters() {
-  const [salaryRange, setSalaryRange] = useState<[number, number]>([10, 30])
+
+  const { getJobs, jobs, isLoading, hasFetched } = useJobStore();
+
+  const [salaryMin, setSalaryMin] = useQueryState('salaryMin', parseAsInteger.withDefault(10));
+  const [salaryMax, setSalaryMax] = useQueryState('salaryMax', parseAsInteger.withDefault(50));
   const [location, setLocation] = useQueryState('location')
-  const [jobType, setJobType] = useQueryState('jobType')
+  const [jobType, setJobType] = useQueryState('jobType', parseAsString.withOptions({shallow:false}))
   const [title, setTitle] = useQueryState('title')
 
-  const jobTypes = ["Full Time", "Part Time", "Contract", "Internship"]
+  const jobTypes = [
+  { label: "Full Time", value: "FULL_TIME" },
+  { label: "Part Time", value: "PART_TIME" },
+  { label: "Contract", value: "CONTRACT" },
+  { label: "Internship", value: "INTERNSHIP" },
+];
+
+  useEffect(() => {
+    const filters: Record<string, string | number> = {};
+    if (title) filters.title = title;
+    if (jobType) filters.jobType = jobType;
+    if (location) filters.location = location;
+    if (salaryMin !== undefined) filters.salaryMin = salaryMin*1000;
+    if (salaryMax !== undefined) filters.salaryMax = salaryMax*1000;
+    
+    getJobs(filters);
+  }, [title, jobType, location, salaryMin, salaryMax]);  
+  
 
   return (
     <div className="w-full">
@@ -26,10 +48,7 @@ export default function Filters() {
                   type="text"
                   placeholder="Search By Job Title, Role"
                   value={title || ''}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setTitle(value === '' ? null : value);
-                  }}
+                  onChange={(e) => {setTitle(e.target.value || null)}}
                   className="w-full pl-10 pr-4 py-3 border-r border-gray-200 text-sm"
                 />
               </div>
@@ -43,10 +62,7 @@ export default function Filters() {
                   type="text"
                   placeholder="Preferred Location"
                   value={location || ''}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setLocation(value === '' ? null : value);
-                  }}
+                  onChange={(e) => {setLocation(e.target.value || null)}}
                   className="w-full pl-10 pr-4 py-3 border-r border-gray-200 text-sm"
                 />
               </div>
@@ -66,8 +82,8 @@ export default function Filters() {
                 >
                   <option value="">Job type</option>
                   {jobTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {type}
+                    <option key={type.value} value={type.value}>
+                      {type.label}
                     </option>
                   ))}
                 </select>
@@ -81,13 +97,16 @@ export default function Filters() {
                 <div className="flex justify-between items-center text-sm font-medium text-gray-700">
                   <span>Salary Per Month</span>
                   <span>
-                    ₹{salaryRange[0]}k - ₹{salaryRange[1]}k
+                    ₹{salaryMin}k - ₹{salaryMax}k
                   </span>
                 </div>
                 <div className="px-2">
                   <RangeSlider
-                    value={salaryRange}
-                    onChange={setSalaryRange}
+                    value={[salaryMin, salaryMax]}
+                    onChange={([min, max]) => {
+                      setSalaryMin(min);
+                      setSalaryMax(max);
+                    }}
                     min={5}
                     max={100}
                     step={5}
