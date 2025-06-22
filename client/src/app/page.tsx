@@ -1,17 +1,11 @@
-import Filters from "@/components/Filters";
-import JobCardSection from "@/components/JobCardSection";
-import Navbar from "@/components/Navbar";
+import HomeContent from "./HomeContent";
 
 
 export default function Home() {
   return (
     <>
 
-      <Navbar />
-
-      <Filters />
-      
-      <JobCardSection/>
+      <HomeContent/>
 
     </>
   )

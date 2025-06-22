@@ -1,6 +1,6 @@
 'use client'
 
-function Navbar() {
+function Navbar({ onCreateJob }: { onCreateJob: () => void }) {
 
     const navLinks = [
         { name: "Home", href: "#" },
@@ -12,7 +12,7 @@ function Navbar() {
 
     return (
         <div className="w-full py-4 px-4">
-            <nav className="bg-white rounded-4xl shadow-md max-w-6xl mx-auto">
+            <nav className="bg-white rounded-4xl shadow-md max-w-4xl mx-auto">
                 <div className="px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex-shrink-0 flex items-center">
@@ -36,7 +36,9 @@ function Navbar() {
                         </div>
 
                         <div>
-                            <button className="bg-gradient-to-t from-[#6100AD] to-[#A128FF] text-white px-6 py-2 rounded-full font-bold shadow-sm transition duration-200 hover:brightness-110">
+                            <button 
+                            onClick={onCreateJob}
+                            className="bg-gradient-to-t from-[#6100AD] to-[#A128FF] text-white px-6 py-2 rounded-full font-bold shadow-sm transition duration-200 hover:brightness-110">
                                 Create Jobs
                             </button>
                         </div>

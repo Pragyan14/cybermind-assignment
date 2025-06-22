@@ -24,6 +24,8 @@ type JobFilters = {
     salaryMax?: number;
 };
 
+type CreateJobInput = Omit<Job, 'id' | 'createdAt'>;
+
 type JobStore = {
     jobs: Job[];
     error: string | null;
@@ -31,6 +33,7 @@ type JobStore = {
     hasFetched: boolean;
 
     getJobs: (filters?: JobFilters) => Promise<boolean>;
+    addJobs: (job: CreateJobInput) => Promise<boolean>;
 }
 
 export const useJobStore = create<JobStore>((set) => ({
@@ -50,8 +53,26 @@ export const useJobStore = create<JobStore>((set) => ({
             set({ jobs: res.data, error: null, hasFetched: true })
             return true;
         } catch (error: any) {
-            set({ error: 'Failed to fetch jobs', jobs:[], hasFetched: true });
+            set({ error: 'Failed to fetch jobs', jobs: [], hasFetched: true });
             return false;
+        }
+    },
+
+    addJobs: async (job: CreateJobInput) => {
+        try {
+            const res = await axios.post('http://localhost:5000/api/jobs', job);
+            set((state) => ({
+                jobs: [res.data, ...state.jobs],
+                error: null,
+            }));
+            return true;
+        } catch (error: any) {
+            const message =
+                error.response?.data?.message ||
+                error.message ||
+                'Failed to add job';
+            set({ error: "message" });
+            throw new Error(message);
         }
     }
 }))

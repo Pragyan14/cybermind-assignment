@@ -107,7 +107,7 @@ export default function Filters() {
                       setSalaryMin(min);
                       setSalaryMax(max);
                     }}
-                    min={5}
+                    min={0}
                     max={100}
                     step={5}
                     color="black"

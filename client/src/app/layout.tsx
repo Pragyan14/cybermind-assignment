@@ -4,6 +4,7 @@ import "./globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from "@mantine/core";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,7 @@ export default function RootLayout({
       >
         <MantineProvider>
           <NuqsAdapter>
+            <Toaster position="top-right" />
             {children}
           </NuqsAdapter>
         </MantineProvider>
