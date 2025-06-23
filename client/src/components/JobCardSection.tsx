@@ -1,8 +1,7 @@
 'use client'
 
 import { useJobStore } from "@/store/jobStore"
-import JobCard, { Job } from "./JobCard"
-import { useEffect } from "react";
+import JobCard, { Job } from "./ui/JobCard"
 import { Loader } from "lucide-react";
 
 function JobCardSection() {
@@ -24,7 +23,7 @@ function JobCardSection() {
                     ) : (
                         <div className="col-span-full flex justify-center items-center py-16">
                             <p className="text-gray-500 text-center text-lg">
-                                No job found. Try adding one.
+                                No job found.
                             </p>
                         </div>
                     )

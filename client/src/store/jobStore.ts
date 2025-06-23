@@ -36,6 +36,8 @@ type JobStore = {
     addJobs: (job: CreateJobInput) => Promise<boolean>;
 }
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const useJobStore = create<JobStore>((set) => ({
     jobs: [],
     error: null,
@@ -49,7 +51,7 @@ export const useJobStore = create<JobStore>((set) => ({
                     .filter(([_, value]) => value !== undefined && value !== '')
                     .map(([key, value]) => [key, String(value)])
             ).toString();
-            const res = await axios.get(`http://localhost:5000/api/jobs?${query}`);
+            const res = await axios.get(`${API_BASE_URL}/jobs?${query}`);
             set({ jobs: res.data, error: null, hasFetched: true })
             return true;
         } catch (error: any) {
@@ -60,7 +62,7 @@ export const useJobStore = create<JobStore>((set) => ({
 
     addJobs: async (job: CreateJobInput) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/jobs', job);
+            const res = await axios.post(`${API_BASE_URL}/jobs`, job);
             set((state) => ({
                 jobs: [res.data, ...state.jobs],
                 error: null,
