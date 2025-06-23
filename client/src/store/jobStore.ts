@@ -37,8 +37,8 @@ type JobStore = {
     deleteJob: (id: number) => Promise<boolean>;
 }
 
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// const API_BASE_URL = "http://localhost:5000/api";
 
 export const useJobStore = create<JobStore>((set) => ({
     jobs: [],
