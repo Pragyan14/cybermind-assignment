@@ -48,14 +48,14 @@ export const useJobStore = create<JobStore>((set) => ({
         try {
             const query = new URLSearchParams(
                 Object.entries(filters || {})
-                    .filter(([_, value]) => value !== undefined && value !== '')
+                    .filter(([, value]) => value !== undefined && value !== '')
                     .map(([key, value]) => [key, String(value)])
             ).toString();
             const res = await axios.get(`${API_BASE_URL}/jobs?${query}`);
             set({ jobs: res.data, error: null, hasFetched: true })
             return true;
-        } catch (error: any) {
-            set({ error: 'Failed to fetch jobs', jobs: [], hasFetched: true });
+        } catch  {
+            set({ error: "Failed to fetch job", jobs: [], hasFetched: true });
             return false;
         }
     },
@@ -68,12 +68,9 @@ export const useJobStore = create<JobStore>((set) => ({
                 error: null,
             }));
             return true;
-        } catch (error: any) {
-            const message =
-                error.response?.data?.message ||
-                error.message ||
-                'Failed to add job';
-            set({ error: "message" });
+        } catch {
+            const message ='Failed to add job';
+            set({ error: message });
             throw new Error(message);
         }
     }

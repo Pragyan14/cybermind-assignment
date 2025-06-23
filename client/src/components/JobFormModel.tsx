@@ -5,7 +5,7 @@ import Input from "./ui/Input";
 import Label from "./ui/Label";
 import { useState } from "react";
 import { useJobStore } from "@/store/jobStore";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 export enum JobType {
     FULL_TIME = "FULL_TIME",

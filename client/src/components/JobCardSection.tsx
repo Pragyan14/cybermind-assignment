@@ -1,7 +1,7 @@
 'use client'
 
 import { useJobStore } from "@/store/jobStore"
-import JobCard, { Job } from "./ui/JobCard"
+import JobCard from "./ui/JobCard"
 import { Loader } from "lucide-react";
 
 function JobCardSection() {

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function Filters() {
 
-  const { getJobs, jobs, isLoading, hasFetched } = useJobStore();
+  const { getJobs } = useJobStore();
 
   const [salaryMin, setSalaryMin] = useQueryState('salaryMin', parseAsInteger.withDefault(10));
   const [salaryMax, setSalaryMax] = useQueryState('salaryMax', parseAsInteger.withDefault(50));
@@ -32,7 +32,7 @@ export default function Filters() {
     if (salaryMax !== undefined) filters.salaryMax = salaryMax*1000;
     
     getJobs(filters);
-  }, [title, jobType, location, salaryMin, salaryMax]);  
+  }, [title, jobType, location, salaryMin, salaryMax, getJobs]);  
   
 
   return (

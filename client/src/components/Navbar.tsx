@@ -1,5 +1,7 @@
 'use client'
 
+import Image from "next/image"
+
 function Navbar({ onCreateJob }: { onCreateJob: () => void }) {
 
     const navLinks = [
@@ -16,8 +18,8 @@ function Navbar({ onCreateJob }: { onCreateJob: () => void }) {
                 <div className="px-6 lg:px-8">
                     <div className="flex justify-between items-center h-16">
                         <div className="flex-shrink-0 flex items-center">
-                            <div className="w-10 h-10 flex items-center justify-center">
-                                <img src="logo.svg" alt="logo" />
+                            <div className="flex items-center justify-center">
+                                <Image width={40} height={40} src="logo.svg" alt="logo" />
                             </div>
                         </div>
 
