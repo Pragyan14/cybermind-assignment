@@ -1,6 +1,9 @@
 'use client'
+import { useJobStore } from "@/store/jobStore";
 import { getTimeAgo } from "@/utils/getTimeAgo";
-import { Building, Layers, UserPlus } from "lucide-react";
+import { Building, Layers, Trash, UserPlus } from "lucide-react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export type Job = {
     id: number;
@@ -22,6 +25,19 @@ type Props = {
 };
 
 function JobCard({ job }: Props) {
+
+    const {deleteJob, error} = useJobStore();
+
+    const handleDelete = async (id: number) => {
+        try{
+            await deleteJob(id);
+            toast.success("Job deleted successfully");
+        }catch(error){
+            console.log(error);
+            toast.error("Failed to add job");
+        }
+    }
+
     return (
         <div className="bg-white p-4 shadow rounded-xl">
             <div className="flex justify-between items-start mb-6">
@@ -58,12 +74,18 @@ function JobCard({ job }: Props) {
             </div>
 
             {/* Apply Button */}
-            <button
-                // onClick={onApply}
-                className="w-full bg-[#00AAFF] hover:bg-[#00AAFF]/90 text-white py-3 rounded-xl cursor-pointer"
-            >
-                Apply Now
-            </button>
+            <div className="flex flex-row gap-2">
+                <button className="basis-3/4 bg-[#00AAFF] hover:bg-[#00AAFF]/90 text-white py-3 rounded-xl cursor-pointer">
+                    Apply Now
+                </button>
+                <button
+                    value={job.id}
+                    onClick={() => {handleDelete(job.id)}}
+                    className="basis-1/4 flex justify-center bg-[#FF4D4F] hover:bg-[#FF4D4F]/90 text-white py-3 rounded-xl cursor-pointer"
+                >
+                    <Trash />
+                </button>
+            </div>
         </div>
     )
 }

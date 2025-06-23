@@ -38,9 +38,9 @@ function Navbar({ onCreateJob }: { onCreateJob: () => void }) {
                         </div>
 
                         <div>
-                            <button 
-                            onClick={onCreateJob}
-                            className="bg-gradient-to-t from-[#6100AD] to-[#A128FF] text-white px-6 py-2 rounded-full font-bold shadow-sm transition duration-200 hover:brightness-110">
+                            <button
+                                onClick={onCreateJob}
+                                className="bg-gradient-to-t from-[#6100AD] to-[#A128FF] text-white px-6 py-2 rounded-full font-bold shadow-sm transition duration-200 hover:brightness-110">
                                 Create Jobs
                             </button>
                         </div>

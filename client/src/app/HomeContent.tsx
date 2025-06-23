@@ -3,7 +3,7 @@
 import Filters from "@/components/Filters";
 import JobCardSection from "@/components/JobCardSection";
 import JobFormModal from "@/components/JobFormModel";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/ui/Navbar";
 import { Suspense, useState } from "react";
 
 

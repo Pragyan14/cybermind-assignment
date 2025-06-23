@@ -34,9 +34,11 @@ type JobStore = {
 
     getJobs: (filters?: JobFilters) => Promise<boolean>;
     addJobs: (job: CreateJobInput) => Promise<boolean>;
+    deleteJob: (id: number) => Promise<boolean>;
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = "http://localhost:5000/api";
 
 export const useJobStore = create<JobStore>((set) => ({
     jobs: [],
@@ -54,7 +56,7 @@ export const useJobStore = create<JobStore>((set) => ({
             const res = await axios.get(`${API_BASE_URL}/jobs?${query}`);
             set({ jobs: res.data, error: null, hasFetched: true })
             return true;
-        } catch  {
+        } catch {
             set({ error: "Failed to fetch job", jobs: [], hasFetched: true });
             return false;
         }
@@ -69,7 +71,22 @@ export const useJobStore = create<JobStore>((set) => ({
             }));
             return true;
         } catch {
-            const message ='Failed to add job';
+            const message = 'Failed to add job';
+            set({ error: message });
+            throw new Error(message);
+        }
+    },
+
+    deleteJob: async (id: number) => {
+        try {
+            const res = await axios.delete(`${API_BASE_URL}/jobs/${id}`)
+            set((state) => ({
+                jobs: state.jobs.filter((job) => job.id !== id),
+                error: null,
+            }));
+            return true
+        } catch (error) {
+            const message = 'Failed to delete job';
             set({ error: message });
             throw new Error(message);
         }
