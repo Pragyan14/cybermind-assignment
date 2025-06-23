@@ -10,8 +10,8 @@ export default function Filters() {
 
   const { getJobs } = useJobStore();
 
-  const [salaryMin, setSalaryMin] = useQueryState('salaryMin', parseAsInteger.withDefault(10));
-  const [salaryMax, setSalaryMax] = useQueryState('salaryMax', parseAsInteger.withDefault(50));
+  const [salaryMin, setSalaryMin] = useQueryState('salaryMin', parseAsInteger);
+  const [salaryMax, setSalaryMax] = useQueryState('salaryMax', parseAsInteger);
   const [location, setLocation] = useQueryState('location')
   const [jobType, setJobType] = useQueryState('jobType', parseAsString.withOptions({shallow:false}))
   const [title, setTitle] = useQueryState('title')
@@ -28,8 +28,8 @@ export default function Filters() {
     if (title) filters.title = title;
     if (jobType) filters.jobType = jobType;
     if (location) filters.location = location;
-    if (salaryMin !== undefined) filters.salaryMin = salaryMin*1000;
-    if (salaryMax !== undefined) filters.salaryMax = salaryMax*1000;
+    if (salaryMin !== null) filters.salaryMin = salaryMin*1000;
+    if (salaryMax !== null) filters.salaryMax = salaryMax*1000;
     
     getJobs(filters);
   }, [title, jobType, location, salaryMin, salaryMax, getJobs]);  
@@ -97,17 +97,17 @@ export default function Filters() {
                 <div className="flex justify-between items-center text-sm font-medium text-gray-700">
                   <span>Salary Per Month</span>
                   <span>
-                    ₹{salaryMin}k - ₹{salaryMax}k
+                    ₹{salaryMin || 10}k - ₹{salaryMax || 30}k
                   </span>
                 </div>
                 <div className="px-2">
                   <RangeSlider
-                    value={[salaryMin, salaryMax]}
+                    value={[salaryMin || 10, salaryMax || 30]}
                     onChange={([min, max]) => {
                       setSalaryMin(min);
                       setSalaryMax(max);
                     }}
-                    min={0}
+                    min={10}
                     max={100}
                     step={5}
                     color="black"

@@ -79,13 +79,13 @@ export const useJobStore = create<JobStore>((set) => ({
 
     deleteJob: async (id: number) => {
         try {
-            const res = await axios.delete(`${API_BASE_URL}/jobs/${id}`)
+            await axios.delete(`${API_BASE_URL}/jobs/${id}`)
             set((state) => ({
                 jobs: state.jobs.filter((job) => job.id !== id),
                 error: null,
             }));
             return true
-        } catch (error) {
+        } catch {
             const message = 'Failed to delete job';
             set({ error: message });
             throw new Error(message);

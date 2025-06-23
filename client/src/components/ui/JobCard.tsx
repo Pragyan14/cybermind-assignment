@@ -2,7 +2,6 @@
 import { useJobStore } from "@/store/jobStore";
 import { getTimeAgo } from "@/utils/getTimeAgo";
 import { Building, Layers, Trash, UserPlus } from "lucide-react";
-import { useState } from "react";
 import toast from "react-hot-toast";
 
 export type Job = {
@@ -26,7 +25,7 @@ type Props = {
 
 function JobCard({ job }: Props) {
 
-    const {deleteJob, error} = useJobStore();
+    const {deleteJob} = useJobStore();
 
     const handleDelete = async (id: number) => {
         try{
